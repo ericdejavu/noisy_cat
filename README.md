@@ -13,9 +13,7 @@
 + **mongoose**
 + **cmake**
 + **python3-dev**
-<<<<<<< HEAD
 
 ## 实现原理
 
-=======
->>>>>>> 04304714869772079084e1607f1ea174d4f7d567
+![](https://github.com/ericdejavu/noisy_cat/blob/master/imgs/cat_struct.png)

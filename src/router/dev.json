@@ -1,0 +1,5 @@
+{
+	"auth": {
+		"args":{"username": "string", "password": "array_string", "right_required": "int"},  "status":{"stroage":true, "stable": false, "required":[ "username", "password"]}
+	}
+}

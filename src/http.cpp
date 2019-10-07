@@ -4,7 +4,7 @@
 
 
 
-int run_server(const char *address, MG_CB(mg_event_handler_t handler, void *user_data)) {
+int run_server_thread(const char *address, MG_CB(mg_event_handler_t handler, void *user_data)) {
 	struct mg_mgr mgr;
 	struct mg_connection *nc = NULL;
 
@@ -13,7 +13,7 @@ int run_server(const char *address, MG_CB(mg_event_handler_t handler, void *user
 
 
 	mg_mgr_init(&mgr, NULL);
-	
+
 	memset(&bind_opts, 0, sizeof(bind_opts));
 	bind_opts.error_string = &err_str;
 

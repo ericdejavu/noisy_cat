@@ -2,15 +2,22 @@
 #include <cstring>
 #include <cstdio>
 #include <python3.7m/Python.h>
+#include "python_module.h"
 
 using namespace std;
 
-int main() {
-	string url = "url_test";
-	string data = "1234";
+Python::Python() {
 	Py_Initialize();
 	PyRun_SimpleString("import sys");
-	PyRun_SimpleString("sys.path.append('./')");
+	PyRun_SimpleString("sys.path.append('./service')");
+}
+
+Python::~Python() {
+	Py_Finalize();
+}
+
+int Python::python3_load(string url, string data) {
+
 	PyObject *pModule = PyImport_ImportModule(url.c_str());
 	PyObject *pFunc = PyObject_GetAttrString(pModule, "run");
 
@@ -18,7 +25,6 @@ int main() {
 
 	PyTuple_SetItem(py_args, 0, PyBytes_FromString(data.c_str()));
 
-
 	PyEval_CallObject(pFunc, py_args);
-	Py_Finalize();
+
 }

@@ -28,3 +28,8 @@ int Python::python3_load(string url, string data) {
 	PyEval_CallObject(pFunc, py_args);
 
 }
+
+
+void PythonParser::dy_service() {
+
+}

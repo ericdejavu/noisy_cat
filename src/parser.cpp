@@ -10,7 +10,9 @@ rapidjson::Document doc;
 #define MAX_CONTENT 4096
 #define MAJOR_CONTENT 4096
 
-bool parse_url_json(char *file_path) {
+#define SEND
+
+bool BaseParser::parse_url_json(char *file_path) {
 	int fd = open(file_path, O_RDONLY, 0665);
 	if (fd < 0) {
 		std::cout << "failed to load json file" << endl;
@@ -41,7 +43,7 @@ bool parse_url_json(char *file_path) {
 	return true;
 }
 
-bool parse_major_json(char *file_path) {
+bool BaseParser::parse_major_json(char *file_path) {
 	int fd = open(file_path, O_RDONLY, 0665);
 	if (fd < 0) {
 		std::cout << "failed to load json file" << endl;
@@ -72,17 +74,25 @@ bool parse_major_json(char *file_path) {
 }
 
 
-void search_from_all_urls(char *uri, int (*fp)(string, string)) {
+void BaseParser::dy_service() {
+
+}
+
+void BaseParser::search_from_all_urls(char *uri) {
 	for (int i=0;i<urls.size();i++) {
 		if (mg_vcmp(uri, urls[i]) == 0) {
 			post_datas.clear();
 			if (doc.HasMember(uri) {
 				rapidjson::Value &data = doc[uri];
 				if (data.IsObject()) {
-					for (rapidjson::Value::ConstMemberIterator itr = data.MemberBegin();  itr != data.MemberEnd(); ++itr) {
+					for (rapidjson::Value::ConstMemberIterator itr = data.MemberBegin(); itr != data.MemberEnd(); ++itr) {
 
 					}
 				}
+
+				dy_service();
+
+				SEND
 			}
 			break;
 		}
@@ -91,7 +101,7 @@ void search_from_all_urls(char *uri, int (*fp)(string, string)) {
 }
 
 
-static void ev_handler(struct mg_connection *nc, int ev, void *ev_data) {
+static void BaseParser::ev_handler(struct mg_connection *nc, int ev, void *ev_data) {
 	struct http_message *hm = (struct http_message*) evdata;
 	switch (ev) {
 		case MG_EV_HTTP_REQUEST:

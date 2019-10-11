@@ -3,7 +3,6 @@
 
 
 
-
 int run_server_thread(const char *address, MG_CB(mg_event_handler_t handler, void *user_data)) {
 	struct mg_mgr mgr;
 	struct mg_connection *nc = NULL;
@@ -17,7 +16,7 @@ int run_server_thread(const char *address, MG_CB(mg_event_handler_t handler, voi
 	memset(&bind_opts, 0, sizeof(bind_opts));
 	bind_opts.error_string = &err_str;
 
-	nc = mg_bind_opt(&mgr, s_http_port, ev_handler, bind_opts);
+	nc = mg_bind_opt(&mgr, s_http_port, ev_handler, , bind_opts);
 	if (nc == NULL) {
 		exit(1);
 	}

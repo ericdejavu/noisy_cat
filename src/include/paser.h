@@ -1,6 +1,15 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+class Respnose {
+public:
+	char *status;
+	char *result;
+
+	Respnose();
+	~Respnose();
+};
+
 class BaseParser {
 private:
 	bool parse_url_json(char *file_path);
@@ -9,18 +18,18 @@ private:
 	void search_from_all_urls(char *uri);
 
 public:
-	virtual void dy_service();
+	virtual Respnose *dy_service(std::vector<std::string> post_datas);
 	void ev_handler(struct mg_connection *nc, int ev, void *ev_data);
 };
 
 class PythonParser : public BaseParser {
 public:
-	void dy_service();
+	Respnose *dy_service(std::vector<std::string> post_datas);
 };
 
 class JavaParser : public BaseParser {
 public:
-	void dy_service();
+	Respnose *dy_service(std::vector<std::string> post_datas);
 };
 
 

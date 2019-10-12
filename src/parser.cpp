@@ -10,7 +10,12 @@ rapidjson::Document doc;
 #define MAX_CONTENT 4096
 #define MAJOR_CONTENT 4096
 
-#define SEND
+#define STAND_LENGTH 4096
+
+#define COMMON_RESPONSE "{ \"ok\": %s, \"data\": %s }"
+
+#define SEND(respnose) 		mg_printf_http_chunk(np->nc, COMMON_RESPONSE, respnose->status, respnose->result); \
+													mg_send_http_chunk(np->nc, "", 0);
 
 bool BaseParser::parse_url_json(char *file_path) {
 	int fd = open(file_path, O_RDONLY, 0665);
@@ -74,7 +79,7 @@ bool BaseParser::parse_major_json(char *file_path) {
 }
 
 
-void BaseParser::dy_service() {
+Respnose *BaseParser::dy_service(std::vector<std::string> post_datas) {
 
 }
 
@@ -86,13 +91,20 @@ void BaseParser::search_from_all_urls(char *uri) {
 				rapidjson::Value &data = doc[uri];
 				if (data.IsObject()) {
 					for (rapidjson::Value::ConstMemberIterator itr = data.MemberBegin(); itr != data.MemberEnd(); ++itr) {
+						Value &key = itr.GetName();
+						if(key.IsString()) {
+							char param[STAND_LENGTH];
+							memset(param, 0, sizeof(param));
+							mg_get_http_var(&np->hm->body, key.GetString(), param, sizeof(param));
 
+							post_datas.push_back(param);
+
+						}
 					}
 				}
 
-				dy_service();
-
-				SEND
+				Respnose *respnose = dy_service(post_datas);
+				SEND(respnose);
 			}
 			break;
 		}

@@ -23,6 +23,8 @@ public:
 };
 
 class PythonParser : public BaseParser {
+private:
+	Python *pPython;
 public:
 	Respnose *dy_service(std::vector<std::string> post_datas);
 };

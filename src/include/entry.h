@@ -1,18 +1,18 @@
 #ifndef ENTRY_H
 #define ENTRY_H
 
-class Server {
+class Transceiver {
 private:
 	BaseParser *pParser;
 };
 
-class Http : public Server {
+class Http : public Transceiver {
 public:
 	Http(BaseParser *pParser);
 	~Http();
 };
 
-class Serial : public Server {
+class Serial : public Transceiver {
 public:
 	Serial();
 	~Serial();
